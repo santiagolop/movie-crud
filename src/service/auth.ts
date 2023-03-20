@@ -3,12 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 class AuthService {
-  private JWT_SECRET = process.env.JWT_SECRET;
-  public async signup(
-    name: string,
-    email: string,
-    password: string
-  ): Promise<string> {
+  public async signup(email: string, password: string) {
     const user = await UserModel.findOne({ email });
     if (user) {
       throw Error("Email already in use");
@@ -18,17 +13,14 @@ class AuthService {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = await UserModel.create({
-      name,
       email,
       password: hashedPassword,
     });
 
-    return jwt.sign({ userId: newUser.id }, this.JWT_SECRET, {
-      expiresIn: "1y",
-    });
+    return this.getAuthTokens({ userId: newUser.id });
   }
 
-  public async login(email: string, password: string): Promise<string> {
+  public async login(email: string, password: string) {
     const user = await UserModel.findOne({ email });
     if (!user) {
       throw Error("Invalid credentials");
@@ -39,9 +31,24 @@ class AuthService {
       throw Error("Invalid credentials");
     }
 
-    return jwt.sign({ userId: user.id }, this.JWT_SECRET, {
+    return this.getAuthTokens({ userId: user.id });
+  }
+
+  private getAuthTokens(payload: { userId: string }) {
+    const accessToken = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
+    const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {
       expiresIn: "1y",
     });
+    return { accessToken, refreshToken };
+  }
+
+  public async refresh(refreshToken: string) {
+    const token = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET) as {
+      userId: string;
+    };
+    return this.getAuthTokens({ userId: token.userId });
   }
 }
 

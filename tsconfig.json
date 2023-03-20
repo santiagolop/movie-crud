@@ -16,7 +16,6 @@
     "skipLibCheck": true,
     "baseUrl": "src",
     "paths": {
-      "@client/*": ["client/*"],
       "@model/*": ["model/*"],
       "@service/*": ["service/*"],
       "@utils/*": ["utils/*"]

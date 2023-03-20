@@ -1,11 +1,10 @@
 import * as dotenv from "dotenv";
 import express, { Application } from "express";
 import cors from "cors";
-import { exerciseRouter } from "./exercise";
-import { routineRouter } from "./routine";
 import { authRouter } from "./auth";
 import { connectToMongo } from "@utils/mongoose";
-import { userRouter } from "./user";
+import { movieRouter } from "./movie";
+import { tvShowRouter } from "./tv-show";
 
 const app: Application = express();
 dotenv.config();
@@ -17,12 +16,10 @@ connectToMongo();
 
 app.use("/auth", authRouter);
 
-app.use("/exercise", exerciseRouter);
+app.use("/movie", movieRouter);
 
-app.use("/routine", routineRouter);
-
-app.use("/user", userRouter);
+app.use("/tv-show", tvShowRouter);
 
 app.listen(process.env.PORT, () => {
-  console.log(`Server started on port ${process.env.PORT} 🚀`);
+  console.log(`Server started on port ${process.env.PORT}`);
 });
