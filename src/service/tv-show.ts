@@ -29,7 +29,16 @@ class TvShowService {
       throw new Error("Director not found");
     }
 
-    return { ...episode, director: { name: director.name } };
+    return {
+      number: episode.number,
+      title: episode.title,
+      minutes: episode.minutes,
+      description: episode.description,
+      rating: episode.rating,
+      releaseDate: episode.releaseDate,
+      directorId: episode.directorId,
+      director: { name: director.name },
+    };
   }
 }
 

@@ -27,9 +27,6 @@ export class Episode {
 
   @prop()
   director?: DirectorData;
-
-  @prop()
-  season!: number;
 }
 
 class Season {

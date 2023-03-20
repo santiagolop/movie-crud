@@ -12,7 +12,7 @@ interface TvShowQuery {
 
 tvShowRouter.use(authenticate);
 
-tvShowRouter.get("/", async (req: Request, res: Response) => {
+tvShowRouter.get("/episode", async (req: Request, res: Response) => {
   const { name, seasonNumber, episodeNumber }: TvShowQuery = req.query;
 
   if (!name || !seasonNumber || !episodeNumber) {

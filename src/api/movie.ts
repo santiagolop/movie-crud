@@ -19,6 +19,6 @@ movieRouter.get("/", async (req: Request, res: Response) => {
 });
 
 movieRouter.post("/", async (req: Request, res: Response) => {
-  const movie = await movieService.createMovie(req.body);
-  res.status(201).json({ data: movie });
+  await movieService.createMovie(req.body);
+  res.status(201).json({ data: true });
 });
