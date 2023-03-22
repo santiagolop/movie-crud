@@ -27,7 +27,7 @@ This is an example of how the service works:
 
 ### Request
 
-`POST auth/signup/`
+`POST auth/signup`
 
     body: {
       "email": string,
@@ -45,7 +45,7 @@ This is an example of how the service works:
 
 ### Request
 
-`POST auth/login/`
+`POST auth/login`
 
     body: {
       "email": string,
@@ -63,7 +63,7 @@ This is an example of how the service works:
 
 ### Request
 
-`POST auth/refresh/`
+`POST auth/refresh`
 
     body: {
       "refreshToken": string
@@ -149,5 +149,5 @@ This is an example of how the service works:
       "rating": number,
       "releaseDate": Date,
       "directorId": string,
-      "director": { name: director.name },
+      "director": { "name": string },
     }
